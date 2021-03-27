@@ -102,15 +102,15 @@ a_term : a_term T_MUL a_fact
     | a_fact
     ;
 
-a_fact : 
-    | 
-    | 
-    | 
-    | 
+a_fact : varref
+    | T_NUM
+    | T_LITERAL_STR
+    | T_SUB a_fact
+    | '(' a_expr ')'
     ;
 
-varref : 
-  | 
+varref : T_ID
+  | '[' varref ']' '[' T_ID ']'
   ;
 
 l_expr : l_expr T_AND l_term
