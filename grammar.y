@@ -71,23 +71,24 @@ stmt : assignment
 block : T_BEGIN stmt_list T_END
   ;
 
-foreach : T_FOREACH l_expr
-          T_IN stmt_list
-          '(' T_REPEAT ':' T_UNTIL ')' 
-          stmt
+foreach : T_FOREACH varref
+          T_IN
+          '(' l_expr ':' l_expr ')' 
+          stmt_list
     ;
 
 while : T_WHILE 
         '(' l_expr ')' 
-        stmt
+        repeat
     ;
 
-repeat : T_REPEAT stmt_list T_UNTIL l_expr
-      | 
+repeat : %empty
+      | T_REPEAT stmt_list T_UNTIL
   ;
 
 if_stmt : T_IF l_expr
-          T_THEN stmt
+          T_THEN 
+          stmt_list
           T_ELSE else_stmt
   ;
 
@@ -115,7 +116,8 @@ a_fact : varref
     ;
 
 varref : T_ID
-  | '[' varref ']' '[' a_expr ']'
+  | T_ID '[' a_expr ']'
+  | T_ID '[' varref ']' '[' a_expr ']'
   ;
 
 l_expr : l_expr T_AND l_term
@@ -150,7 +152,7 @@ varlist : varref
       ;
 
 expr_list : a_expr
-  | a_expr','expr_list
+  | a_expr ',' expr_list
   ;
 
 %%
