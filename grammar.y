@@ -71,23 +71,28 @@ stmt : assignment
 block : T_BEGIN stmt_list T_END
   ;
 
-foreach : T_FOREACH 
-          T_IN 
-          '(' ':' ')' 
+foreach : T_FOREACH l_expr
+          T_IN stmt_list
+          '(' T_REPEAT ':' T_UNTIL ')' 
           stmt
     ;
 
-while : 
+while : T_WHILE 
+        '(' l_expr ')' 
+        stmt
     ;
 
-repeat : 
+repeat : T_REPEAT stmt_list T_UNTIL l_expr
+      | 
   ;
 
-if_stmt : 
+if_stmt : T_IF l_expr
+          T_THEN stmt
+          T_ELSE else_stmt
   ;
 
-else_stmt : 
-  |
+else_stmt : %empty
+    | stmt
   ;
 
 assignment : varref T_ASSIGN l_expr ;
