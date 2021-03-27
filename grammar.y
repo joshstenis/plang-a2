@@ -141,11 +141,11 @@ read : T_READ varlist ;
 write: T_WRITE expr_list;
 
 varlist : varref
-      | varref ',' varref
+      | varref','varlist
       ;
 
-expr_list : 
-  | 
+expr_list : a_expr
+  | a_expr','expr_list
   ;
 
 %%
